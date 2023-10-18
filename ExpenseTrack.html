@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="form">
+    <label for="name">Choose expenseamount</label>
+    <input type="text" id="name">
+    <label for="description"> Choose description</label>
+    <input type="text" id="description">
+    <label for="category">Choose a category</label>
+    <select id="select">
+        <option value="Movies">Movies</option>
+        <option value="Vegitables">Vegitables</option>
+        <option value="Milk">Milk</option>
+        <option value="Gas">Gas</option>
+    </select>
+    <button type="submit" value="Submit">Add Expense</button>
+    </form>
+    <div id="display"></div>
+    <script>
+
+        document.getElementById("form").addEventListener("submit",function(event){
+            event.preventDefault();
+            // Get values from the form
+
+            var name = document.getElementById("name").value;
+            var description = document.getElementById("description").value;
+            var select = document.getElementById("select").value;
+
+            localStorage.setItem("name",name);
+            localStorage.setItem("description",description);
+            localStorage.setItem("select",select);
+            // Display the data on the screen
+
+            var displaydata = document.getElementById("display");
+            displaydata.innerHTML = name +"-";
+            displaydata.innerHTML += description + "-";
+            displaydata.innerHTML += select ;
+            displaydata.innerHTML += '<button onclick="editData()">Edit</button>';
+            displaydata.innerHTML += '<button onclick="deleteData()">Delete</button>';
+        });
+        // Retrieve data from localStorage on page load
+
+        window.addEventListener("load",function(){
+           var name= localStorage.getItem("name");
+           var description = localStorage.getItem("description");
+            var select = localStorage.getItem("select");
+
+            if(name || description || select){
+                var displaydata = document.getElementById("display");
+                displaydata.innerHTML = name +"-";
+            displaydata.innerHTML += description + "-";
+            displaydata.innerHTML += select ;
+            displaydata.innerHTML += '<button onclick="editData()">Edit</button>';
+            displaydata.innerHTML += '<button onclick="deleteData()">Delete</button>';
+            }
+        });
+        // Function to edit data
+
+        function editData(){
+            var name= localStorage.getItem("name");
+           var description = localStorage.getItem("description");
+            var select = localStorage.getItem("select");
+
+            document.getElementById("name").value = name;
+            document.getElementById("description").value = description;
+            document.getElementById("select").value = select;
+        }
+        // Function to delete data
+
+        function deleteData(){
+            localStorage.removeItem("name");
+            localStorage.removeItem("description");
+            localStorage.removeItem("select");
+
+            var displaydata = document.getElementById("display");
+            displaydata.innerHTML = ''; // Clear the displayed data
+
+            // Clear input fields
+
+            document.getElementById("name").value='';
+            document.getElementById("description").value='';
+            document.getElementById("select").value='';
+        }
+    </script>
+</body>
+</html>
